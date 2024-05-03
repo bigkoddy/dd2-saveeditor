@@ -25,6 +25,7 @@
     "@electron-forge/plugin-fuses": "^7.4.0",
     "@electron-forge/plugin-vite": "^7.4.0",
     "@electron/fuses": "^1.8.0",
+    "@rushstack/eslint-patch": "^1.10.2",
     "@tsconfig/node20": "^20.1.4",
     "@types/bun": "latest",
     "@typescript-eslint/eslint-plugin": "^7.8.0",
@@ -33,6 +34,7 @@
     "electron": "^30.0.2",
     "eslint": "^9.1.1",
     "eslint-plugin-import": "^2.29.1",
+    "prettier": "^3.2.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5",
     "vite": "^5.2.11"
