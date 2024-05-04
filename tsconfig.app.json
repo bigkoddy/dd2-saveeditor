@@ -1,6 +1,7 @@
 {
   "extends": "@vue/tsconfig/tsconfig.dom.json",
   "exclude": [
+    "**/__mocks__/*",
     "src/**/__tests__/*",
     "src/**/*.spec.*",
     "src/**/*.test.*",
