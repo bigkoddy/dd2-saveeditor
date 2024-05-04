@@ -11,12 +11,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "electron-forge start",
+    "start": "electron-vite dev",
     "build": "run-p type-check \"build-only {@}\" --",
     "build-only": "cross-env rm -r \".vite\" && electron-vite build",
     "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
-    "package": "electron-builder build --win",
-    "make": "electron-forge make"
+    "package": "electron-builder build --win"
   },
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0",
@@ -41,6 +40,7 @@
     "prettier": "^3.2.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5",
-    "vite": "^5.2.11"
+    "vite": "^5.2.11",
+    "vue-tsc": "^2.0.16"
   }
 }
