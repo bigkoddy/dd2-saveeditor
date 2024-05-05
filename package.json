@@ -13,7 +13,7 @@
   "scripts": {
     "start": "electron-vite dev",
     "build": "run-p type-check \"build-only {@}\" --",
-    "build-only": "cross-env rm -r \".vite\" && electron-vite build",
+    "build-only": "cross-env rm -rf \".vite\" && electron-vite build",
     "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
     "package": "electron-builder build --win"
   },

@@ -1,15 +1,15 @@
 import type { ConfigEnv, UserConfig } from "vite";
 import type { ElectronViteConfig } from "electron-vite";
 import { defineConfig, mergeConfig } from "vite";
-import { getBuildConfig, getBuildDefine, external } from "./vite.base.config";
+import { getBuildConfig, external } from "./vite.base.config";
+import path from "path";
 
 const VITE_ELECTRON_CONFIG: ElectronViteConfig = {
   main: defineConfig((env: ConfigEnv) => {
-    const define = getBuildDefine(env);
     const config: UserConfig = {
       build: {
         lib: {
-          entry: "src/main.ts",
+          entry: "src/main/main.ts",
           fileName: () => "[name].js",
           formats: ["es"],
         },
@@ -18,7 +18,6 @@ const VITE_ELECTRON_CONFIG: ElectronViteConfig = {
         },
       },
       plugins: [],
-      define,
       resolve: {
         // Load the Node.js entry.
         mainFields: ["module", "jsnext:main", "jsnext"],
@@ -32,7 +31,6 @@ const VITE_ELECTRON_CONFIG: ElectronViteConfig = {
       build: {
         rollupOptions: {
           external,
-          input: "src/preload.ts",
           output: {
             format: "es",
             // It should not be split chunks.
@@ -51,14 +49,21 @@ const VITE_ELECTRON_CONFIG: ElectronViteConfig = {
   renderer: defineConfig((env: ConfigEnv) => {
     const { mode } = env;
 
-    return {
+    const config: UserConfig = {
       mode,
       base: "./",
       build: {
-        outDir: ".vite/renderer/main_app_window",
+        outDir: ".vite/renderer",
+        lib: {
+          entry: "src/renderer.ts",
+          fileName: () => "[name].js",
+          formats: ["es"],
+        },
         rollupOptions: {
           external,
-          input: "src/renderer.ts",
+          input: {
+            index: path.resolve(__dirname, "src/renderer/index.html"),
+          },
           output: {
             format: "es",
           },
@@ -68,8 +73,9 @@ const VITE_ELECTRON_CONFIG: ElectronViteConfig = {
       resolve: {
         preserveSymlinks: true,
       },
-      clearScreen: false,
-    } as UserConfig;
+    };
+    console.log(mergeConfig(getBuildConfig(env), config));
+    return mergeConfig(getBuildConfig(env), config);
   }),
 };
 
