@@ -15,7 +15,7 @@
     "build": "run-p type-check \"build-only {@}\" --",
     "build-only": "cross-env rm -rf \".vite\" && electron-vite build",
     "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
-    "package": "electron-builder build --win"
+    "package": "cross-env rm -rf \"dist\" && electron-builder build --win"
   },
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0",
@@ -28,6 +28,7 @@
     "@types/bun": "latest",
     "@typescript-eslint/eslint-plugin": "^7.8.0",
     "@typescript-eslint/parser": "^7.8.0",
+    "@vitejs/plugin-vue": "^5.0.4",
     "@vue/tsconfig": "^0.5.1",
     "cross-env": "^7.0.3",
     "electron": "^30.0.2",

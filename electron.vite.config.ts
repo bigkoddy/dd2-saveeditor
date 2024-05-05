@@ -1,8 +1,11 @@
 import type { ConfigEnv, UserConfig } from "vite";
 import type { ElectronViteConfig } from "electron-vite";
+import path from "path";
 import { defineConfig, mergeConfig } from "vite";
 import { getBuildConfig, external } from "./vite.base.config";
-import path from "path";
+import vue from "@vitejs/plugin-vue";
+
+const IS_PRODUCTION = process.env.NODE_ENV === "production";
 
 const VITE_ELECTRON_CONFIG: ElectronViteConfig = {
   main: defineConfig((env: ConfigEnv) => {
@@ -32,7 +35,7 @@ const VITE_ELECTRON_CONFIG: ElectronViteConfig = {
         rollupOptions: {
           external,
           output: {
-            format: "es",
+            format: "cjs",
             // It should not be split chunks.
             inlineDynamicImports: true,
             entryFileNames: "[name].js",
@@ -55,12 +58,11 @@ const VITE_ELECTRON_CONFIG: ElectronViteConfig = {
       build: {
         outDir: ".vite/renderer",
         lib: {
-          entry: "src/renderer.ts",
+          entry: "src/renderer/renderer.ts",
           fileName: () => "[name].js",
           formats: ["es"],
         },
         rollupOptions: {
-          external,
           input: {
             index: path.resolve(__dirname, "src/renderer/index.html"),
           },
@@ -69,12 +71,16 @@ const VITE_ELECTRON_CONFIG: ElectronViteConfig = {
           },
         },
       },
-      plugins: [],
+      plugins: [
+        vue({
+          isProduction: IS_PRODUCTION,
+        }),
+      ],
       resolve: {
         preserveSymlinks: true,
       },
     };
-    console.log(mergeConfig(getBuildConfig(env), config));
+
     return mergeConfig(getBuildConfig(env), config);
   }),
 };
